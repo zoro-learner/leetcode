@@ -1,0 +1,36 @@
+class Solution {
+    public int dominantIndex(int[] nums) {
+        assert nums != null && nums.length > 0 : "The length of nums must be larger than 0";
+        if (nums.length == 1) {
+            return 0;
+        }
+        final int DICT_LENGTH = 100;
+        int[] dict = new int[DICT_LENGTH];
+        Arrays.fill(dict, -1);
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] < 0 && nums[i] > 99) {
+                throw new IllegalArgumentException("Every nums[i] will be an integer in the range [0, 99]. ");
+            }
+            dict[nums[i]] = i;
+        }
+
+        int first = DICT_LENGTH - 1;
+        while (dict[first] == -1) {
+            first--;
+        }
+
+        int second = first - 1;
+        while (dict[second] == -1) {
+            second--;
+        }
+
+        if (first >= second * 2) {
+            return dict[first];
+        } else {
+            return -1;
+        }
+    }
+}
+
+//runtime_error:Line 14: java.lang.ArrayIndexOutOfBoundsException: Index 100 out of bounds for length 100
+//last_testcase:[1,2,16,35,44,100,27,0]

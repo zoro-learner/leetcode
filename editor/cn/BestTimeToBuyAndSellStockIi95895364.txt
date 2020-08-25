@@ -1,0 +1,26 @@
+class Solution {
+    public int maxProfit(int[] prices) {
+        if (prices == null || prices.length < 1) {
+            return 0;
+        }
+        int totalProfit = 0;
+        int buyIdx = 0;
+        int sellIdx = 0;
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] > prices[sellIdx]) {
+                sellIdx = i;
+            } else {
+                totalProfit += prices[sellIdx] - prices[buyIdx];
+                buyIdx = i;
+                sellIdx = i;
+            }
+        }
+        return totalProfit;
+    }
+}
+
+//total_testcases:200
+//total_correct:97
+//input_formatted:[1,2,3,4,5]
+//expected_output:4
+//code_output:0
