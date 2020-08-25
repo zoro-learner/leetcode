@@ -28,6 +28,8 @@ package leetcode.editor.cn;
 // 👍 521 👎 0
 
 
+import java.util.Arrays;
+
 /**
  * @author zoro-learner
  * @create 2020-08-06 19:20:38
@@ -41,13 +43,23 @@ public class PlusOne {
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int[] plusOne(int[] digits) {
-        int carry = 0;
+        int carry = 1;
         for (int i = digits.length - 1; i >= 0; i--) {
-            int num = digits[i] + 1 + carry;
-            digits[i] = num / 10;
-            carry = num % 10;
+            int num = digits[i] + carry;
+            digits[i] = num % 10;
+            carry = num / 10;
         }
+        if (carry == 0) {
+            return digits;
+        }
+        int[] res = new int[digits.length + 1];
+        res[0] = carry;
+        for (int i = 0; i < digits.length; i++) {
+            res[i + 1] = digits[i];
+        }
+        return res;
     }
+
 }
 //leetcode submit region end(Prohibit modification and deletion)
 
