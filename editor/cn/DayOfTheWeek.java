@@ -56,7 +56,39 @@ public class DayOfTheWeek {
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public String dayOfTheWeek(int day, int month, int year) {
+        final String[] weekdays = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+        int daysSince1971 = getDaysCount(day, month, year);
+        return weekdays[(daysSince1971 + 5) % 7];
+    }
 
+    private int getDaysCount(int day, int month, int year) {
+        final int[] months = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        final int YEAR_START = 1971;
+        final int MONTH_START = 1;
+        final int DAY_START = 1;
+        int res = 0;
+        for (int y = YEAR_START; y < year; y++) {
+            res += getDaysInAYear(y);
+//            System.out.println(y + " " + getDaysInAYear(y));
+        }
+        for (int m = MONTH_START; m < month; m++) {
+            System.out.println(m + " " + months[m - 1]);
+            res += months[m - 1];
+        }
+        res += day - 1;
+        if (isLeapYear(year) && month > 2) {
+            res++;
+        }
+//        System.out.println(res);
+        return res;
+    }
+
+    private int getDaysInAYear(int year) {
+        return isLeapYear(year) ? 366 : 365;
+    }
+
+    private boolean isLeapYear(int year) {
+        return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
