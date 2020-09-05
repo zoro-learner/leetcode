@@ -68,6 +68,9 @@ package leetcode.editor.cn;
 // 👍 1001 👎 0
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author zoro-learner
  * @create 2020-08-25 19:17:35
@@ -81,7 +84,31 @@ public class RomanToInteger {
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int romanToInt(String s) {
+        Map<Character, Integer> map = getMap();
+        int res = 0;
+        int last = 0;
+        for (int i = s.length() - 1; i >= 0; i--) {
+            int num = map.get(s.charAt(i));
+            if (num < last) {
+                res -= num;
+            } else {
+                res += num;
+                last = num;
+            }
+        }
+        return res;
+    }
 
+    private Map<Character, Integer> getMap() {
+        Map<Character, Integer> map = new HashMap<>();
+        map.put('I', 1);
+        map.put('V', 5);
+        map.put('X', 10);
+        map.put('L', 50);
+        map.put('C', 100);
+        map.put('D', 500);
+        map.put('M', 1000);
+        return map;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

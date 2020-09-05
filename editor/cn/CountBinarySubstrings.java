@@ -52,27 +52,47 @@ class Solution {
         if (s.length() == 1) {
             return 0;
         }
-        return helper(s, s.length() - 1);
+        int zero = 0;
+        int one = 0;
+        int res = 0;
+        char last = s.charAt(0);
+        for (char ch : s.toCharArray()) {
+            if (ch == last) {
+                if (ch == '0') {
+                    if (one == 0) {
+                        zero++;
+                    } else if (zero < one) {
+                        zero++;
+                        res++;
+                    } else {
+                        zero++;
+                        one = 0;
+                    }
+                } else {
+                    if (zero == 0) {
+                        one++;
+                    } else if (one < zero) {
+                        one++;
+                        res++;
+                    } else {
+                        one++;
+                        zero = 0;
+                    }
+                }
+            } else {
+                if (ch == '0') {
+                    zero = 1;
+                } else {
+                    one = 1;
+                }
+                res++;
+            }
+            last = ch;
+//            System.out.println(zero + ", " + one + ", " + res);
+        }
+        return res;
     }
 
-    private int helper(String s, int tail) {
-        if (tail == 0) {
-            return 0;
-        }
-        int last = helper(s, tail - 1);
-        int head = tail;
-        while (head >= 0 && s.charAt(head) == s.charAt(tail)) {
-            head--;
-        }
-        int one = tail - head + 1;
-        tail = head;
-        while (head >= 0 && s.charAt(head) == s.charAt(tail)) {
-            head--;
-        }
-        int other = tail - head + 1;
-        int cur = one == other ? 1 : 0;
-        return cur + last;
-    }
 }
 //leetcode submit region end(Prohibit modification and deletion)
 
