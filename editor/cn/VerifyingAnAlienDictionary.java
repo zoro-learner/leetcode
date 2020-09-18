@@ -62,8 +62,32 @@ public class VerifyingAnAlienDictionary {
     
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-    public boolean isAlienSorted(String[] words, String order) {
 
+    public boolean isAlienSorted(String[] words, String order) {
+        int[] dict = new int[26];
+        for (int i = 0; i < order.length(); i++) {
+            dict[order.charAt(i) - 'a'] = i + 1;
+        }
+
+        for (int i = 0; i < words.length - 1; i++) {
+            if (compare(words[i], words[i + 1], dict) > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private int compare(String s, String t, int[] order) {
+        int k = 0;
+        while (k < s.length() || k < t.length()) {
+            int sOrder = k < s.length() ? order[s.charAt(k) - 'a'] : 0;
+            int tOrder = k < t.length() ? order[t.charAt(k) - 'a'] : 0;
+            if (sOrder != tOrder) {
+                return sOrder - tOrder;
+            }
+            k++;
+        }
+        return 0;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

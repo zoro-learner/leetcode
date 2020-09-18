@@ -52,6 +52,12 @@ package leetcode.editor.cn;
 // 👍 29 👎 0
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 /**
  * @author zoro-learner
  * @create 2020-09-04 19:34:22
@@ -65,7 +71,45 @@ public class ShortestCompletingWord {
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public String shortestCompletingWord(String licensePlate, String[] words) {
+        Map<Integer, List<String>> wordsMap = new HashMap<>();
+        for (String word : words) {
+            int len = word.length();
+            if (!wordsMap.containsKey(len)) {
+                wordsMap.put(len, new ArrayList<>());
+            }
+            wordsMap.get(len).add(word);
+        }
 
+        int[] dict = new int[26];
+        for (char ch : licensePlate.toCharArray()) {
+            if (Character.isLetter(ch)) {
+                dict[Character.toLowerCase(ch) - 'a']++;
+            }
+        }
+
+        List<Integer> lens = wordsMap.keySet().stream().sorted().collect(Collectors.toList());
+
+        for (int len : lens) {
+            for (String word : wordsMap.get(len)) {
+                if (isValid(word, dict)) {
+                    return word;
+                }
+            }
+        }
+        return "";
+    }
+
+    private boolean isValid(String word, int[] dict) {
+        int[] wordsCount = new int[26];
+        for (char ch : word.toCharArray()) {
+            wordsCount[ch - 'a']++;
+        }
+        for (int i = 0; i < 26; i++) {
+            if (wordsCount[i] < dict[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

@@ -54,6 +54,12 @@ package leetcode.editor.cn;
 // 👍 74 👎 0
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 /**
  * @author zoro-learner
  * @create 2020-09-05 14:56:34
@@ -67,10 +73,31 @@ public class SubdomainVisitCount {
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public List<String> subdomainVisits(String[] cpdomains) {
+        Map<String, Integer> visits = new HashMap<>();
+        for (String cpdomain : cpdomains) {
+            String[] strs = cpdomain.split(" ");
+            Integer count = Integer.parseInt(strs[0]);
+            List<String> domains = getDomains(strs[1]);
+            for (String domain : domains) {
+                visits.put(domain, visits.getOrDefault(domain, 0) + count);
+            }
+        }
+        List<String> res = visits.keySet().stream().map(t -> visits.get(t) + " " + t).collect(Collectors.toList());
+        return res;
+    }
 
+    private List<String> getDomains(String domains) {
+        List<String> res = new ArrayList<>();
+        int found = 0;
+        while (found != -1) {
+            found = domains.indexOf(".", found + 1);
+            res.add(domains.substring(found + 1));
+        }
+        return res;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
 
-    
+
+
 }

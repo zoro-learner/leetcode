@@ -51,7 +51,38 @@ public class BullsAndCows {
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public String getHint(String secret, String guess) {
+        int bulls = getBulls(secret, guess);
+        int cows = getSameCharCount(secret, guess) - bulls;
+        String hint = bulls + "A" + cows + "B";
+        return hint;
+    }
 
+    private int getSameCharCount(String secret, String guess) {
+        int[] dict = new int[10];
+        for (char ch : secret.toCharArray()) {
+            dict[ch - '0']++;
+        }
+
+        int cnt = 0;
+        for (char ch : guess.toCharArray()) {
+            int index = ch - '0';
+            if (dict[index] > 0) {
+                cnt++;
+                dict[index]--;
+            }
+        }
+
+        return cnt;
+    }
+
+    private int getBulls(String secret, String guess) {
+        int cnt = 0;
+        for (int i = 0; i < secret.length(); i++) {
+            if (secret.charAt(i) == guess.charAt(i)) {
+                cnt++;
+            }
+        }
+        return cnt;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
