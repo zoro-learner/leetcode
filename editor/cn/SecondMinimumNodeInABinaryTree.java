@@ -45,6 +45,9 @@ package leetcode.editor.cn;
 // 👍 103 👎 0
 
 
+import java.util.ArrayDeque;
+import java.util.Queue;
+
 /**
  * @author zoro-learner
  * @create 2020-09-18 11:04:03
@@ -67,10 +70,40 @@ public class SecondMinimumNodeInABinaryTree {
  */
 class Solution {
     public int findSecondMinimumValue(TreeNode root) {
-
+        if (root == null) {
+            return -1;
+        }
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.add(root);
+        int first = root.val;
+        int second = Integer.MAX_VALUE;
+        boolean hasSecond = false;
+        while (!queue.isEmpty()) {
+            TreeNode tmp = queue.poll();
+            if (tmp.val > first && tmp.val <= second) {
+                hasSecond = true;
+                second = tmp.val;
+            }
+            if (tmp.left != null && tmp.val < second) {
+                queue.add(tmp.left);
+            }
+            if (tmp.right != null && tmp.val < second) {
+                queue.add(tmp.right);
+            }
+        }
+        return hasSecond ? second : -1;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
 
-    
+
+
+public class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode (int x) {
+        val = x;
+    }
+}
 }

@@ -39,8 +39,9 @@ package leetcode.editor.cn;
 // 👍 382 👎 0
 
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
 /**
  * @author zoro-learner
@@ -65,13 +66,37 @@ public class LowestCommonAncestorOfABinarySearchTree {
 
 class Solution {
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        Map<TreeNode, TreeNode> map = getParentMap(root);
+        List<TreeNode> pathOfP = findPath(root, p);
+        List<TreeNode> pathOfQ = findPath(root, q);
+        if (pathOfP.isEmpty() || pathOfQ.isEmpty()) {
+            return null;
+        }
+        int i = 0;
+        for (i = 0; i < pathOfP.size() && i < pathOfQ.size(); i++) {
+            if (pathOfP.get(i).val != pathOfQ.get(i).val) {
+                break;
+            }
+        }
+        return pathOfP.get(i - 1);
     }
 
-    private Map<TreeNode, TreeNode> getParentMap(TreeNode root) {
-        if (root )
-        return null;
+    private List<TreeNode> findPath(TreeNode root, TreeNode node) {
+        List<TreeNode> path = new ArrayList<>();
+        if (root == null || node == null) {
+            return path;
+        }
+        path.add(root);
+        if (root.val == node.val) {
+            return path;
+        } else if (root.val < node.val) {
+            path.addAll(findPath(root.right, node));
+        } else {
+            path.addAll(findPath(root.left, node));
+        }
+        return path;
     }
+
+
 }
 //leetcode submit region end(Prohibit modification and deletion)
 
@@ -81,6 +106,11 @@ public class TreeNode {
     TreeNode right;
     TreeNode (int x) {
         val = x;
+    }
+
+    @Override
+    public String toString() {
+        return val + "->";
     }
 }
 }
