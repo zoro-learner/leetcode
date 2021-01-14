@@ -55,7 +55,36 @@ public class FloodFill {
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
+        int startColor = image[sr][sc];
+        boolean[][] visited = new boolean[image.length][image[0].length];
+        helper(image, visited, sr, sc, startColor, newColor);
 
+        return image;
+    }
+
+    private void helper(int[][] image, boolean[][] visited, int sr, int sc, int startColor, int newColor) {
+        if (sr < 0 || sc < 0 || sr >= image.length || sc >= image[0].length) {
+            return ;
+        }
+        if (image[sr][sc] != startColor || visited[sr][sc]) {
+            return ;
+        }
+        image[sr][sc] = newColor;
+        visited[sr][sc] = true;
+//        System.out.println(sr + " " + sc);
+
+        if (sr > 0 && image[sr - 1][sc] == startColor) {
+            helper(image, visited, sr - 1, sc, startColor, newColor);
+        }
+        if (sr < image.length - 1 && image[sr + 1][sc] == startColor) {
+            helper(image, visited, sr + 1, sc, startColor, newColor);
+        }
+        if (sc > 0 && image[sr][sc - 1] == startColor) {
+            helper(image, visited, sr, sc - 1, startColor, newColor);
+        }
+        if (sc < image[0].length - 1 && image[sr][sc + 1] == startColor) {
+            helper(image, visited, sr, sc + 1, startColor, newColor);
+        }
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

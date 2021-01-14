@@ -63,6 +63,8 @@ package leetcode.editor.cn;
 // 👍 0 👎 0
 
 
+import java.util.Arrays;
+
 /**
  * @author zoro-learner
  * @create 2020-09-22 19:08:48
@@ -76,7 +78,38 @@ public class RearrangeSpacesBetweenWords {
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public String reorderSpaces(String text) {
+        String[] words = text.trim().split("\\s+");
+//        System.out.println(Arrays.toString(words));
+        int total = numOfSpace(text);
 
+        StringBuilder spaces = new StringBuilder();
+        int per = total;
+        if (words.length > 1) {
+            per = total / (words.length - 1);
+        }
+        for (int i = 0; i < per; i++) {
+            spaces.append(" ");
+        }
+
+        StringBuilder res = new StringBuilder(words[0]);
+        for (int i = 1; i < words.length; i++) {
+            res.append(spaces).append(words[i]);
+        }
+        int remains = total - per * (words.length - 1);
+        for (int i = 0; i < remains; i++) {
+            res.append(" ");
+        }
+        return res.toString();
+    }
+
+    private int numOfSpace(String text) {
+        int cnt = 0;
+        for (char ch : text.toCharArray()) {
+            if (ch == ' ') {
+                cnt++;
+            }
+        }
+        return cnt;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

@@ -65,6 +65,8 @@ package leetcode.editor.cn;
 // 👍 149 👎 0
 
 
+import java.util.Stack;
+
 /**
  * @author zoro-learner
  * @create 2020-09-29 15:10:08
@@ -78,7 +80,37 @@ public class BaseballGame {
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int calPoints(String[] ops) {
-
+        Stack<Integer> stack = new Stack<>();
+        for (String op : ops) {
+            switch (op) {
+                case "C":
+                    if (!stack.isEmpty()) {
+                        stack.pop();
+                    }
+                    break;
+                case "D":
+                    if (!stack.isEmpty()) {
+                        stack.push(stack.peek() * 2);
+                    }
+                    break;
+                case "+":
+                    if (stack.size() > 1) {
+                        int first = stack.pop();
+                        int second = stack.peek();
+                        stack.push(first);
+                        stack.push(first + second);
+                    }
+                    break;
+                default:
+                    stack.push(Integer.parseInt(op));
+                    break;
+            }
+        }
+        int sum = 0;
+        while (!stack.isEmpty()) {
+            sum += stack.pop();
+        }
+        return sum;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

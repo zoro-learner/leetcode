@@ -67,7 +67,28 @@ public class ReverseBits {
 public class Solution {
     // you need treat n as an unsigned value
     public int reverseBits(int n) {
-        
+        StringBuilder ones = toBinary(n);
+        System.out.println(ones);
+        int res = parseBinary(ones);
+        return res;
+    }
+
+    private int parseBinary(StringBuilder sb) {
+        int n = 0;
+        for (int i = 0; i < sb.length(); i++) {
+            n = n * 2 + sb.charAt(i);
+        }
+        return n;
+    }
+
+    private StringBuilder toBinary(int n) {
+        StringBuilder sb = new StringBuilder();
+        while (n != 0) {
+            System.out.println(n);
+            sb.append(n & 1);
+            n >>= 1;
+        }
+        return sb;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

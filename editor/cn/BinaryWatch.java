@@ -27,6 +27,8 @@ package leetcode.editor.cn;
 // 👍 168 👎 0
 
 
+import java.util.List;
+
 /**
  * @author zoro-learner
  * @create 2020-09-23 20:15:18

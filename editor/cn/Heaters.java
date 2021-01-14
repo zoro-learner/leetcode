@@ -49,6 +49,10 @@ package leetcode.editor.cn;
 // 👍 152 👎 0
 
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author zoro-learner
  * @create 2020-09-25 19:51:07
@@ -62,8 +66,56 @@ public class Heaters {
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int findRadius(int[] houses, int[] heaters) {
-
+        Arrays.sort(houses);
+        Arrays.sort(heaters);
+        int left = 0;
+        int right = Math.max(houses[houses.length - 1], heaters[heaters.length - 1]);
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (isAllCover(houses, heaters, mid)) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
     }
+
+    private boolean isAllCover(int[] houses, int[] heaters, int r) {
+        boolean res = true;
+        for (int house : houses) {
+            if (!isCover(house, heaters, r)) {
+                res = false;
+                break;
+            }
+        }
+        return res;
+    }
+
+    private boolean isCover(int house, int[] heaters, int r) {
+        int left = 0;
+        int right = heaters.length - 1;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (heaters[mid] == house) {
+                return true;
+            } else if (heaters[mid] < house) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        if (house >= heaters[left] - r && house <= heaters[left] + r) {
+            return true;
+        }
+        if (left > 0 && house >= heaters[left - 1] - r && house <= heaters[left - 1] + r) {
+            return true;
+        }
+
+        return false;
+    }
+
+
 }
 //leetcode submit region end(Prohibit modification and deletion)
 
